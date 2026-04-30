@@ -1,8 +1,13 @@
 #include <stdio.h>
-#include <time.h>   // required for time identification code
+#include <time.h>
+#include <stdlib.h>
+
+void addition();
+void subtraction();
+void multiplication();
+void division();
 
 int main() {
-    // Time identification code
     time_t current_time;
     char* c_time_string;
 
@@ -10,16 +15,11 @@ int main() {
     c_time_string = ctime(&current_time);
     printf("Current time is %s\n", c_time_string);
 
-    // Variables
-    int choice = 0;          // menu choice
-    float num1 = 5.50;
-    float num2 = 3.25;
-    float correctAnswer;
-    float userAnswer;
+    srand(time(NULL));
 
-    // Sentinel-controlled loop
+    int choice = 0;
+
     while (choice != 5) {
-        // Display menu
         printf("Menu\n");
         printf("1 for Addition\n");
         printf("2 for Subtraction\n");
@@ -29,35 +29,21 @@ int main() {
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
-        // Process menu choice
         switch (choice) {
             case 1:
-                correctAnswer = num1 + num2;
-
-                printf("\nSolve the following addition problem:\n");
-                printf("%.2f + %.2f = ?\n", num1, num2);
-
-                printf("Enter your answer: ");
-                scanf("%f", &userAnswer);
-
-                if (userAnswer == correctAnswer) {
-                    printf("Correct! Great job!\n\n");
-                } else {
-                    printf("Wrong answer.\n");
-                    printf("The correct answer is %.2f\n\n", correctAnswer);
-                }
+                addition();
                 break;
 
             case 2:
-                printf("\nSubtraction is not available yet.\n\n");
+                subtraction();
                 break;
 
             case 3:
-                printf("\nMultiplication is not available yet.\n\n");
+                multiplication();
                 break;
 
             case 4:
-                printf("\nDivision is not available yet.\n\n");
+                division();
                 break;
 
             case 5:
@@ -65,9 +51,92 @@ int main() {
                 break;
 
             default:
-                printf("\nInvalid choice. Please enter 1, 2, 3, 4, or 5.\n\n");
+                printf("\nInvalid choice. Please enter 1-5.\n\n");
         }
     }
 
     return 0;
+}
+
+void addition() {
+    int num1 = rand() % 100 + 1;
+    int num2 = rand() % 100 + 1;
+    int correctAnswer = num1 + num2;
+    int userAnswer;
+
+    printf("\nSolve:\n");
+    printf("%d + %d = ?\n", num1, num2);
+
+    printf("Enter your answer: ");
+    scanf("%d", &userAnswer);
+
+    if (userAnswer == correctAnswer) {
+        printf("Correct!\n\n");
+    } else {
+        printf("Wrong. Answer = %d\n\n", correctAnswer);
+    }
+}
+
+void subtraction() {
+    int num1 = rand() % 100 + 1;
+    int num2 = rand() % 100 + 1;
+    int correctAnswer = num1 - num2;
+    int userAnswer;
+
+    printf("\nSolve:\n");
+    printf("%d - %d = ?\n", num1, num2);
+
+    printf("Enter your answer: ");
+    scanf("%d", &userAnswer);
+
+    if (userAnswer == correctAnswer) {
+        printf("Correct!\n\n");
+    } else {
+        printf("Wrong. Answer = %d\n\n", correctAnswer);
+    }
+}
+
+void multiplication() {
+    int num1 = rand() % 100 + 1;
+    int num2 = rand() % 100 + 1;
+    int correctAnswer = num1 * num2;
+    int userAnswer;
+
+    printf("\nSolve:\n");
+    printf("%d * %d = ?\n", num1, num2);
+
+    printf("Enter your answer: ");
+    scanf("%d", &userAnswer);
+
+    if (userAnswer == correctAnswer) {
+        printf("Correct!\n\n");
+    } else {
+        printf("Wrong. Answer = %d\n\n", correctAnswer);
+    }
+}
+
+void division() {
+    int num1 = rand() % 100 + 1;
+    int num2 = rand() % 100 + 1;
+
+    if (num2 > num1) {
+        int temp = num1;
+        num1 = num2;
+        num2 = temp;
+    }
+
+    int correctAnswer = num1 / num2;
+    int userAnswer;
+
+    printf("\nSolve integer division:\n");
+    printf("%d / %d = ?\n", num1, num2);
+
+    printf("Enter your answer: ");
+    scanf("%d", &userAnswer);
+
+    if (userAnswer == correctAnswer) {
+        printf("Correct!\n\n");
+    } else {
+        printf("Wrong. Answer = %d\n\n", correctAnswer);
+    }
 }
