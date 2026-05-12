@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 int addition();
 int subtraction();
@@ -21,47 +22,52 @@ int main() {
 
     srand(time(NULL));
 
-    int choice = 0;
+    char choice = ' ';
     int numProblems = 0;
     int correctAnswers = 0;
 
-    while (choice != 5) {
+    while (choice != 'E') {
         printf("\nMenu\n");
-        printf("1 for Addition\n");
-        printf("2 for Subtraction\n");
-        printf("3 for Multiplication\n");
-        printf("4 for Division\n");
-        printf("5 for Exit\n");
+        printf("A for Addition\n");
+        printf("S for Subtraction\n");
+        printf("M for Multiplication\n");
+        printf("D for Division\n");
+        printf("E for Exit\n");
         printf("Enter your choice: ");
-        scanf("%d", &choice);
+
+        scanf_s(" %c", &choice, 1);
+        choice = toupper(choice);
+
+        while (choice != 'A' && choice != 'S' && choice != 'M' && choice != 'D' && choice != 'E') {
+            printf("\nInvalid choice. Please enter A, S, M, D, or E: ");
+            scanf_s(" %c", &choice, 1);
+            choice = toupper(choice);
+        }
 
         switch (choice) {
-            case 1:
+            case 'A':
                 numProblems++;
                 correctAnswers += addition();
                 break;
 
-            case 2:
+            case 'S':
                 numProblems++;
                 correctAnswers += subtraction();
                 break;
 
-            case 3:
+            case 'M':
                 numProblems++;
                 correctAnswers += multiplication();
                 break;
 
-            case 4:
+            case 'D':
                 numProblems++;
                 correctAnswers += division();
                 break;
 
-            case 5:
+            case 'E':
                 printf("\nExiting program. Goodbye!\n");
                 break;
-
-            default:
-                printf("\nInvalid choice.\n");
         }
     }
 
@@ -86,7 +92,7 @@ int addition() {
     int userAnswer;
 
     printf("\n%d + %d = ?\n", num1, num2);
-    scanf("%d", &userAnswer);
+    scanf_s("%d", &userAnswer);
 
     if (userAnswer == correctAnswer) {
         printf("Correct!\n");
@@ -104,7 +110,7 @@ int subtraction() {
     int userAnswer;
 
     printf("\n%d - %d = ?\n", num1, num2);
-    scanf("%d", &userAnswer);
+    scanf_s("%d", &userAnswer);
 
     if (userAnswer == correctAnswer) {
         printf("Correct!\n");
@@ -122,7 +128,7 @@ int multiplication() {
     int userAnswer;
 
     printf("\n%d * %d = ?\n", num1, num2);
-    scanf("%d", &userAnswer);
+    scanf_s("%d", &userAnswer);
 
     if (userAnswer == correctAnswer) {
         printf("Correct!\n");
@@ -147,7 +153,7 @@ int division() {
     int userAnswer;
 
     printf("\n%d / %d = ?\n", num1, num2);
-    scanf("%d", &userAnswer);
+    scanf_s("%d", &userAnswer);
 
     if (userAnswer == correctAnswer) {
         printf("Correct!\n");

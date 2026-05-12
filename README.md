@@ -39,19 +39,18 @@ The webpage was created using:
 
 ## GitHub Repository
 
-[Add your GitHub repository link here]
+(https://github.com/britay2664/Web-Page-for-App)
 
 ---
 
 ## Live Website
 
-[Add your GitHub Pages website link here]
+(https://britay2664.github.io/Web-Page-for-App/)
 
 ---
 
 ## Local Hosting Screenshot
 
-Add your screenshot below after running the project locally with XAMPP.
 
 ![Local Website Screenshot](images/local-site-screenshot.png)
 
