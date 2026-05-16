@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!--
+    Author: Brian Taylor
+    Date: May 16, 2026
+    Purpose: This exercise practices updating JavaScript alert messages.
+    The page allows users to select lunch items and calculate the order total.
+    -->
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+    <title>Updating Alerts</title>
+
+    <link rel="stylesheet" href="styles.css" />
+    <script src="modernizr.custom.05819.js"></script>
+</head>
+
+<body>
+
+    <header>
+        <h1>BriTay2664 - Updating Alerts</h1>
+    </header>
+
+    <article>
+        <h2>Lunch Selections</h2>
+
+        <form>
+            <input type="checkbox" id="item1" value="8" />
+            <label for="item1">Fried chicken ($8.00)</label>
+
+            <input type="checkbox" id="item2" value="9" />
+            <label for="item2">Fried halibut ($9.00)</label>
+
+            <input type="checkbox" id="item3" value="8" />
+            <label for="item3">Hamburger ($8.00)</label>
+
+            <input type="checkbox" id="item4" value="13" />
+            <label for="item4">Grilled salmon ($13.00)</label>
+
+            <input type="checkbox" id="item5" value="6" />
+            <label for="item5">Side salad ($6.00)</label>
+
+            <input type="submit" id="submit" value="Submit" />
+        </form>
+    </article>
+
+    <script>
+        // Adds everything up and calculates the total bill, including gratuity if necessary.
+        function calcTotal() {
+            var itemTotal = 0;
+
+            // Get each checkbox by its ID.
+            var item1 = document.getElementById("item1");
+            var item2 = document.getElementById("item2");
+            var item3 = document.getElementById("item3");
+            var item4 = document.getElementById("item4");
+            var item5 = document.getElementById("item5");
+
+            // Add each selected item's price to the total.
+            if (item1.checked) {
+                itemTotal += 8;
+            }
+
+            if (item2.checked) {
+                itemTotal += 9;
+            }
+
+            if (item3.checked) {
+                itemTotal += 8;
+            }
+
+            if (item4.checked) {
+                itemTotal += 13;
+            }
+
+            if (item5.checked) {
+                itemTotal += 6;
+            }
+
+            // Tell user to re-select if no items were selected.
+            if (itemTotal === 0) {
+                alert("Please select at least one item.");
+            }
+            // Display regular total if bill is $20 or less.
+            else if (itemTotal <= 20) {
+                alert("Your order total is $" + itemTotal.toFixed(2));
+            }
+            // Add 20% gratuity if bill is more than $20.
+            else {
+                var gratuityTotal = itemTotal + (itemTotal * 0.20);
+
+                alert(
+                    "Your order total before gratuity is $" + itemTotal.toFixed(2) +
+                    ". A 20% Gratuity has been added to your final bill, bringing the total to $" +
+                    gratuityTotal.toFixed(2)
+                );
+            }
+        }
+
+        // Stops refreash and calls the calcTotal function when the submit button is clicked.
+        document.getElementById("submit").addEventListener("click", function (e) {
+            e.preventDefault();
+            calcTotal();
+        }, false);
+    </script>
+
+</body>
+
+</html>
