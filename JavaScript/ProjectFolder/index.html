@@ -1,15 +1,15 @@
-//tells browser thid id HTML5 document and sets the language to English
+<!-- This says this is an HTML5 document -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-     //Supports text character 
+     <!-- Supports text character encoding -->
     <meta charset="UTF-8">
-    //Mobile friendly, sets the width of the page to the width of the device and initial zoom level to 1
+    <!-- Mobile friendly, sets the width of the page to the width of the device and initial zoom level to 1 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>BriTay2664 Project</title>
-    //Connects the HTML file to an external CSS file named styles.css for styling the webpage
+    <!-- Connects the HTML file to an external CSS file named styles.css for styling the webpage -->
     <link rel="stylesheet" href="styles.css">
 
 </head>
@@ -34,23 +34,35 @@
     </section>
 
     <section id="projects">
-        <section id="projects">
 
     <h2>Projects</h2>
 
-    <a href="https://github.com/" target="_blank">
+    <p>
+        Below are links to some of my completed GitHub projects.
+    </p>
+
+    <a href="https://github.com/britay2664/Web-Page-for-App/tree/main/JavaScript/ProjectFolder"
+       target="_blank">
+
         <img src="https://via.placeholder.com/200"
-             alt="Project 1">
+             alt="JavaScript Project">
+
     </a>
 
-    <a href="https://github.com/" target="_blank">
+    <a href="https://github.com/britay2664/Web-Page-for-App"
+       target="_blank">
+
         <img src="https://via.placeholder.com/200"
-             alt="Project 2">
+             alt="Web Development Project">
+
     </a>
 
-    <a href="https://github.com/" target="_blank">
+    <a href="https://github.com/britay2664"
+       target="_blank">
+
         <img src="https://via.placeholder.com/200"
-             alt="Project 3">
+             alt="GitHub Profile">
+
     </a>
 
 </section>
@@ -60,16 +72,30 @@
     </section>
 
     <section id="contact">
+    <h2>Contact Me</h2>
 
-        <h2>Contact Me</h2>
+    <form>
+        <label for="senderName">Sender Name</label>
+        <input type="text" id="senderName" name="senderName">
 
-    </section>
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email">
+
+        <label for="subject">Subject</label>
+        <input type="text" id="subject" name="subject">
+
+        <label for="message">Message</label>
+        <textarea id="message" name="message"></textarea>
+
+        <button type="submit">Submit</button>
+    </form>
+</section>
 
 </main>
 
     <h1 id="welcomeMessage">
-        Welcome to BriTay2664's Project 
-    </h1>
+    Welcome to BriTay2664 Project 
+</h1>
 
     <nav>
         <ul>
@@ -84,6 +110,19 @@
     </nav>
 
 </header>
+
+<script>
+
+    // Ask the user's name using a prompt dialog box
+
+    var userName = prompt("What is your name?");
+
+    // Update the welcome message
+
+    document.getElementById("welcomeMessage").innerHTML =
+        "Welcome to BriTay2664's Project, " + userName + "!";
+
+</script>
 
 </body>
 
