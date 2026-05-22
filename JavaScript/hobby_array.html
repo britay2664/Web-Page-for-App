@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Personal Page</title>
+
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <h1>Welcome to My Page</h1>
+    <div id="name">BriTay2664</div>
+    <p id="bio">A short bio about yourself.</p>
+    <ul id="interests">BriTay2664</ul>
+</body>
+
+<script>
+    // Create an array of interests
+    const interests = ["Coding", "Reading", "Traveling", "Photography"];
+
+    // Get the interests element
+    const interestsList = document.getElementById("interests");
+
+    // Use a for loop to display the interests
+    for (let i = 0; i < interests.length; i++) {
+        const listItem = document.createElement("li"); // Create a new list item
+        listItem.textContent = interests[i]; // Set the text content to the interest
+        interestsList.appendChild(listItem); // Append the list item to the interests list
+    }
+
+    // Clear the list before using other loops
+    interestsList.innerHTML = '';
+
+    // While loop
+    let index = 0;
+    while (index < interests.length) {
+        const listItem = document.createElement("li");
+        listItem.textContent = interests[index];
+        interestsList.appendChild(listItem);
+        index++;
+    }
+
+    // Clear the list before using the do-while loop
+    interestsList.innerHTML = '';
+
+    // Do-while loop
+    index = 0;
+    do {
+        const listItem = document.createElement("li");
+        listItem.textContent = interests[index];
+        interestsList.appendChild(listItem);
+        index++;
+    } while (index < interests.length);
+
+    // Clear the list before using the for...of loop
+    interestsList.innerHTML = '';
+
+    // For...of loop
+    for (const interest of interests) {
+        const listItem = document.createElement("li");
+        listItem.textContent = interest;
+        interestsList.appendChild(listItem);
+    }
+
+    // Clear the list before using the forEach loop
+    interestsList.innerHTML = '';
+
+    // forEach loop
+    interests.forEach(interest => {
+        const listItem = document.createElement("li");
+        listItem.textContent = interest;
+        interestsList.appendChild(listItem);
+    });
+
+</script>
+
+</html>

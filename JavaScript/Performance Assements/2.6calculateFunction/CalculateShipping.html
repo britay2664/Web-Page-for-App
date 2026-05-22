@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!--
+        Author: Brian Taylor
+        Date: 05/21/2026
+
+        Purpose:
+        This program allows the user to enter a purchase price.
+        The program calculates shipping and handling fees based
+        on the purchase amount and displays the total order cost.
+    -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BriTay2664, Calculate Shipping and Handling</title>
+
+    <script>
+        function calculateTotal() {
+
+            // Get the purchase price from the textbox
+            let purchasePrice = parseFloat(document.getElementById("price").value);
+
+            // Variable for shipping fee
+            let shippingFee = 0;
+
+            // Determine shipping fee
+            if (purchasePrice <= 25) {
+                shippingFee = 1.50;
+            } else {
+                shippingFee = purchasePrice * 0.10;
+            }
+
+            // Calculate final total
+            let total = purchasePrice + shippingFee;
+
+            // Display alert box
+            alert("The order total is: $" + total.toFixed(2));
+        }
+    </script>
+</head>
+
+<body>
+
+    <h1>BriTay2664, Calculate Function</h1>
+
+    <!-- Label and textbox -->
+    <label for="price">Purchase Price</label>
+
+    <input type="text" id="price">
+
+    <!-- Button -->
+    <button onclick="calculateTotal()">
+        Calculate Shipping and Handling
+    </button>
+
+</body>
+
+</html>

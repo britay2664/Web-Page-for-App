@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!--
+        Author: Brian Taylor
+        Date: 05/21/2026
+
+        Purpose:
+        This program uses a while loop to display
+        all even numbers between 1 and 101.
+        If a number is divisible by 10,
+        the program starts a new line.
+    -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>While Loops</title>
+
+</head>
+
+<body>
+
+    <h1>BriTay2664, While Loops</h1>
+
+    <p id="output"></p>
+
+    <script>
+
+        // Variable starts at 2 because 2 is the first even number
+        let number = 2;
+
+        // Variable to store output
+        let result = "";
+
+        // While loop
+        while (number <= 100) {
+
+            // Add number to output
+            result += number + " ";
+
+            // If divisible by 10, start a new line
+            if (number % 10 === 0) {
+                result += "<br>";
+            }
+
+            // Increase by 2 to stay even
+            number += 2;
+        }
+
+        // Display results on screen
+        document.getElementById("output").innerHTML = result;
+
+    </script>
+
+</body>
+
+</html>

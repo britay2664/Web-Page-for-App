@@ -1,128 +1,177 @@
-<!-- This says this is an HTML5 document -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-     <!-- Supports text character encoding -->
+    <!--
+        Author: Brian Taylor
+        Date: May 22, 2026
+        Purpose: Portfolio page using HTML, CSS, and JavaScript.
+        This page includes navigation, project links, a contact form,
+        personalized user interaction, featured content, skills, and dark mode.
+    -->
+
     <meta charset="UTF-8">
-    <!-- Mobile friendly, sets the width of the page to the width of the device and initial zoom level to 1 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>BriTay2664 Project</title>
-    <!-- Connects the HTML file to an external CSS file named styles.css for styling the webpage -->
     <link rel="stylesheet" href="styles.css">
-
 </head>
 
 <body>
+
     <header>
-        <main>
+        <h1 id="welcomeMessage">Welcome to BriTay2664 Project</h1>
 
-    <section id="about">
+        <label class="dark-toggle">
+            <input type="checkbox" id="darkModeToggle">
+            Dark Mode
+        </label>
 
-        <h2>About Me</h2>
+        <nav>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#featured">Featured Content</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
 
-        <p>
-            My name is Brian Taylor. I am currently studying software development
-            and cybersecurity while building projects to improve my web development skills.
-        </p>
+    <main>
 
-        <p>
-            I enjoy creating applications, learning JavaScript, and Spending time with my family.
-        </p>
+        <section id="about">
+            <h2>About Me</h2>
 
-    </section>
+            <p>
+                My name is Brian Taylor. I am currently studying software development
+                and cybersecurity while building projects to improve my web development skills.
+            </p>
 
-    <section id="projects">
+            <p>
+                I enjoy creating applications, learning JavaScript, and spending time with my family.
+            </p>
 
-    <h2>Projects</h2>
+            <h3>Skills and Technologies</h3>
+            <ul id="skillsList"></ul>
+        </section>
 
-    <p>
-        Below are links to some of my completed GitHub projects.
-    </p>
+        <section id="featured">
+            <h2>Featured Content</h2>
 
-    <a href="https://github.com/britay2664/Web-Page-for-App/tree/main/JavaScript/ProjectFolder"
-       target="_blank">
+            <div id="universityResources" class="featuredBox">
+                <h3>University Resources</h3>
+                <p>
+                    <a href="https://www.ecpi.edu/programs/software-development-bachelor-degree" target="_blank">
+                        ECPI Software Development Program
+                    </a>
+                </p>
+            </div>
 
-        <img src="https://via.placeholder.com/200"
-             alt="JavaScript Project">
+            <div id="personalProjects" class="featuredBox">
+                <h3>Personal Projects</h3>
 
-    </a>
+                <a href="https://github.com/britay2664/Web-Page-for-App/tree/main/JavaScript/ProjectFolder" target="_blank">
+                    <img src="https://via.placeholder.com/200" alt="JavaScript Project">
+                </a>
 
-    <a href="https://github.com/britay2664/Web-Page-for-App"
-       target="_blank">
+                <a href="https://github.com/britay2664/Web-Page-for-App" target="_blank">
+                    <img src="https://via.placeholder.com/200" alt="Web Development Project">
+                </a>
+            </div>
+        </section>
 
-        <img src="https://via.placeholder.com/200"
-             alt="Web Development Project">
+        <section id="projects">
+            <h2>Projects</h2>
 
-    </a>
+            <p>
+                Below are links to some of my completed GitHub projects.
+            </p>
 
-    <a href="https://github.com/britay2664"
-       target="_blank">
+            <a href="https://github.com/britay2664/Web-Page-for-App/tree/main/JavaScript/ProjectFolder" target="_blank">
+                <img src="https://via.placeholder.com/200" alt="JavaScript Project">
+            </a>
 
-        <img src="https://via.placeholder.com/200"
-             alt="GitHub Profile">
+            <a href="https://github.com/britay2664/Web-Page-for-App" target="_blank">
+                <img src="https://via.placeholder.com/200" alt="Web Development Project">
+            </a>
 
-    </a>
+            <a href="https://github.com/britay2664" target="_blank">
+                <img src="https://via.placeholder.com/200" alt="GitHub Profile">
+            </a>
+        </section>
 
-</section>
+        <section id="contact">
+            <h2>Contact Me</h2>
 
-        <h2>Projects</h2>
+            <form id="contactForm">
+                <label for="senderName">Sender Name</label>
+                <input type="text" id="senderName" name="senderName">
 
-    </section>
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email">
 
-    <section id="contact">
-    <h2>Contact Me</h2>
+                <label for="subject">Subject</label>
+                <input type="text" id="subject" name="subject">
 
-    <form>
-        <label for="senderName">Sender Name</label>
-        <input type="text" id="senderName" name="senderName">
+                <label for="message">Message</label>
+                <textarea id="message" name="message"></textarea>
 
-        <label for="email">Email Address</label>
-        <input type="email" id="email" name="email">
+                <button type="submit" id="submitButton">Submit</button>
+            </form>
+        </section>
 
-        <label for="subject">Subject</label>
-        <input type="text" id="subject" name="subject">
+    </main>
 
-        <label for="message">Message</label>
-        <textarea id="message" name="message"></textarea>
+    <script>
+        // Ask the user's name and update the welcome message.
+        var userName = prompt("What is your name?");
 
-        <button type="submit">Submit</button>
-    </form>
-</section>
+        if (userName !== null && userName !== "") {
+            document.getElementById("welcomeMessage").innerHTML =
+                "Welcome to BriTay2664's Project, " + userName + "!";
+        }
 
-</main>
+        // Display skills in the About section using an array and loop.
+        var skills = ["HTML", "CSS", "JavaScript", "Git", "GitHub"];
+        var skillsList = document.getElementById("skillsList");
 
-    <h1 id="welcomeMessage">
-    Welcome to BriTay2664 Project 
-</h1>
+        for (var i = 0; i < skills.length; i++) {
+            var skillItem = document.createElement("li");
+            skillItem.innerHTML = skills[i];
+            skillsList.appendChild(skillItem);
+        }
 
-    <nav>
-        <ul>
+        // Show or hide featured content based on number of project links.
+        var projectLinks = document.querySelectorAll("#projects a");
+        var universityResources = document.getElementById("universityResources");
+        var personalProjects = document.getElementById("personalProjects");
 
-            <li><a href="#about">About</a></li>
+        if (projectLinks.length < 3) {
+            universityResources.style.display = "block";
+            personalProjects.style.display = "block";
+        }
+        else {
+            universityResources.style.display = "none";
+            personalProjects.style.display = "block";
+        }
 
-            <li><a href="#projects">Projects</a></li>
+        // Toggle dark mode on and off.
+        var darkModeToggle = document.getElementById("darkModeToggle");
 
-            <li><a href="#contact">Contact</a></li>
+        darkModeToggle.addEventListener("change", function () {
+            document.body.classList.toggle("darkMode");
+        });
 
-        </ul>
-    </nav>
+        // Prevent form refresh and show confirmation alert.
+        var contactForm = document.getElementById("contactForm");
 
-</header>
+        contactForm.addEventListener("submit", function (event) {
+            event.preventDefault();
 
-<script>
+            var senderName = document.getElementById("senderName").value;
 
-    // Ask the user's name using a prompt dialog box
-
-    var userName = prompt("What is your name?");
-
-    // Update the welcome message
-
-    document.getElementById("welcomeMessage").innerHTML =
-        "Welcome to BriTay2664's Project, " + userName + "!";
-
-</script>
+            alert("Thank you, " + senderName + ", your message has been sent!");
+        });
+    </script>
 
 </body>
 

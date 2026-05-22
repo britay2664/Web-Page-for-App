@@ -266,3 +266,44 @@ button {
     border: none;
     font-size: 1.2em;
 }
+
+.dark-toggle {
+    display: block;
+    color: white;
+    font-size: 0.6em;
+    margin-top: 10px;
+}
+
+#skillsList {
+    list-style-type: disc;
+    margin-left: 25px;
+    color: #330570;
+}
+
+.featuredBox {
+    border: 3px solid #330570;
+    background: #fff4cc;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.darkMode {
+    background: #111;
+    color: white;
+}
+
+.darkMode main {
+    background: #222;
+}
+
+.darkMode section {
+    background: #333;
+    color: white;
+}
+
+.darkMode h2,
+.darkMode h3,
+.darkMode label,
+.darkMode #skillsList {
+    color: #FFCF40;
+}

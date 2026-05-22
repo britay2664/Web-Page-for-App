@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+      <!--
+         Author: Brian Taylor
+         Date: 05/22/2026  
+         Purpose: This debugging exercise calculates the area of a rectangle and a right triangle.
+         
+        -->
+
+   <meta charset="utf-8" />
+   <meta name="viewport" content="width=device-width,initial-scale=1.0">
+   <title>Debugging</title>
+</head>
+
+<body onload="calculateAreas();">
+   <header>
+      <h1 style="margin-left: 3em">
+         BriTay2664, Debugging
+      </h1>
+   </header>
+
+   <article>
+      <form>
+         <pre><span style="font-size: 20px; font-family: Times New Roman">
+		        The area of a rectangle is found by multiplying 
+		        the length by the width:
+		        
+		           area = length * width
+		           
+		        For a right triangle, the area is 1/2 the length 
+		        times the width:
+		        
+		           area = (length * width)/2
+		
+		        Given these formulas, if we have a rectangle with
+		        a length of 5 and width of 10, the corresponding 
+		        areas of the rectangle and the right triangle
+		        formed by the line that bisects the rectangle 
+		        are:</span></pre>   
+
+         <p id="rectArea" style="margin-left: 8em; font-family: Times New Roman; font-size: 20px"></p>
+         <p id="triArea" style="margin-left: 8em; font-family: Times New Roman; font-size: 20px"></p>               
+      </form>
+   </article>
+
+   <script>
+      "use strict";
+
+      // This function checks for strict mode - there are no errors in this line
+      var isStrict = (function() {return !this;})();
+
+      // This function calculates the areas and sets the HTML dynamically
+      function calculateAreas() {
+    	  if (isStrict) {
+
+	    	  // Calculate the rectangle's area
+	    	  let rectArea = 5 * 10;
+              
+	    	  // Calculate the triangle's area
+	    	  let triArea = (5 * 10) / 2;
+	    	  
+	    	  // Set the rectangle area text on the page
+	    	  let rectP = document.getElementById("rectArea");
+	    	  rectP.innerHTML = "Rectangle Area is: " + rectArea;
+	    	  
+	    	  // Set the triangle area text on the page
+	    	  let rectT = document.getElementById("triArea");
+	    	  rectT.innerHTML = "Triangle Area is: " + triArea;
+    	  }
+    	  else {
+ 	          alert("You're not using strict mode.");
+    	  }
+      }
+   </script>
+</body>
+</html>
