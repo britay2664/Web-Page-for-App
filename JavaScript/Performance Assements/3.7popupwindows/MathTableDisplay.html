@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <!--
+      Author: Brian Taylor
+      Date: 06/01/2026
+      Purpose: This secondary page displays a math table based on the button
+      selected from the main Pop-Up page. It creates either an addition table
+      or a multiplication table from 0 to 10.
+   -->
+   <meta charset="utf-8" />
+   <meta name="viewport" content="width=device-width,initial-scale=1.0">
+   <title>Math Table Display</title>
+
+   <style>
+      body {
+         font-family: Arial, sans-serif;
+      }
+
+      table {
+         border-collapse: collapse;
+         margin-top: 20px;
+      }
+
+      th, td {
+         border: 1px solid black;
+         padding: 8px;
+         text-align: center;
+      }
+
+      th {
+         background-color: #eeeeee;
+      }
+   </style>
+</head>
+
+<body>
+   <header>
+      <h1 id="tableHeading"></h1>
+   </header>
+
+   <main id="tableContainer"></main>
+
+   <script>
+      // Get the table type from the URL.
+      var params = new URLSearchParams(window.location.search);
+      var tableType = params.get("type");
+
+      // Get the heading and table container elements.
+      var tableHeading = document.getElementById("tableHeading");
+      var tableContainer = document.getElementById("tableContainer");
+
+      // Decide which table title and math symbol to use.
+      var title = "";
+      var symbol = "";
+
+      if (tableType === "multiplication") {
+         title = "Multiplication Table";
+         symbol = "x";
+      } else {
+         title = "Addition Table";
+         symbol = "+";
+      }
+
+      // Display the selected table title.
+      tableHeading.textContent = title;
+
+      // Create the table element.
+      var table = document.createElement("table");
+
+      // Create the header row.
+      var headerRow = document.createElement("tr");
+
+      var cornerHeader = document.createElement("th");
+      cornerHeader.textContent = symbol;
+      headerRow.appendChild(cornerHeader);
+
+      for (var i = 0; i <= 10; i++) {
+         var headerCell = document.createElement("th");
+         headerCell.textContent = i;
+         headerRow.appendChild(headerCell);
+      }
+
+      table.appendChild(headerRow);
+
+      // Create the calculation rows.
+      for (var row = 0; row <= 10; row++) {
+         var tableRow = document.createElement("tr");
+
+         var rowHeader = document.createElement("th");
+         rowHeader.textContent = row;
+         tableRow.appendChild(rowHeader);
+
+         for (var col = 0; col <= 10; col++) {
+            var cell = document.createElement("td");
+
+            if (tableType === "multiplication") {
+               cell.textContent = row * col;
+            } else {
+               cell.textContent = row + col;
+            }
+
+            tableRow.appendChild(cell);
+         }
+
+         table.appendChild(tableRow);
+      }
+
+      // Add the completed table to the page.
+      tableContainer.appendChild(table);
+   </script>
+</body>
+</html>

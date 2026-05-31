@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <!--
+      Author: Brian Taylor
+      Date: 06/01/2026
+      Purpose: This exercise demonstrates how to use JavaScript to open
+      a secondary browser window. The page contains buttons that allow the
+      user to display either an addition table or a multiplication table.
+   -->
+   <meta charset="utf-8" />
+   <meta name="viewport" content="width=device-width,initial-scale=1.0">
+   <title>Pop-Up</title>
+</head>
+
+<body>
+   <header>
+      <h1>Brian Taylor, Pop-Up</h1>
+   </header>
+
+   <main>
+      <button onclick="openMathTable('addition')">Addition Table</button>
+      <button onclick="openMathTable('multiplication')">Multiplication Table</button>
+   </main>
+
+   <script>
+      // This function opens the secondary window and sends the selected table type.
+      function openMathTable(tableType) {
+         window.open(
+            "MathTableDisplay.html?type=" + tableType,
+            "MathTableDisplay",
+            "width=600,height=600,resizable=yes,scrollbars=yes"
+         );
+      }
+   </script>
+</body>
+</html>

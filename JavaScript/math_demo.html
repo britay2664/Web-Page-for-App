@@ -1,0 +1,36 @@
+!DOCTYPE html>
+<html>
+<head>
+    <title>Math and DOM Practice</title>
+</head>
+<body>
+    <h1>Math and DOM Practice</h1>
+    <p>Your ECPI Student ID: BriTay2664</p>
+    <p id="randomNum"></p>
+    <p id="squareRoot"></p>
+    <p id="powerCalc"></p>
+    <p id="roundedValue"></p>
+    <button id="calculateBtn">Calculate</button>
+  
+    <script>
+    document.getElementById("calculateBtn").addEventListener("click", function() {
+        // Generate a random number between 0 and 1
+        var randomNumber = Math.random();
+        document.getElementById("randomNum").innerText = "Random Number: " + randomNumber;
+
+        // Calculate the square root of 81
+        var squareRootValue = Math.sqrt(81);
+        document.getElementById("squareRoot").innerText = "Square Root of 81: " + squareRootValue;
+
+        // Calculate 5 to the power of 3
+        var powerValue = Math.pow(5, 3);
+        document.getElementById("powerCalc").innerText = "5 to the power of 3: " + powerValue;
+
+        // Round the number 4.67
+        var roundedValue = Math.round(4.67);
+        document.getElementById("roundedValue").innerText = "Rounded Value of 4.67: " + roundedValue;
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!--
+    Author: Brian Taylor
+    Date: 05/31/2026
+    Purpose: This page demonstrates how to create a simple animation by swapping images in an <img> element. The animation simulates a bouncing jackhammer by cycling through a series of GIF images when the user clicks the "Start Bouncing" button.
+    -->
+
+    <meta charset="utf-8" />
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+    <title>Animation</title>
+
+</head>
+
+<body>
+
+    <h1>BriTay2664, Animation</h1>
+
+    <img
+        id="imgJackhammer"
+        src="jackhammer0.gif"
+        width="113"
+        height="100"
+        alt="Image of a man with a jackhammer."
+    />
+
+    <br>
+
+    <button onclick="startBouncing()">
+        Start Bouncing
+    </button>
+
+    <script>
+
+        // Declare and fill array with image file names
+
+        var jackhammers = [
+            "jackhammer0.gif",
+            "jackhammer1.gif",
+            "jackhammer2.gif",
+            "jackhammer3.gif",
+            "jackhammer4.gif",
+            "jackhammer5.gif",
+            "jackhammer6.gif",
+            "jackhammer7.gif",
+            "jackhammer8.gif",
+            "jackhammer9.gif",
+            "jackhammer10.gif"
+        ];
+
+        // Track current image index
+
+        var curJackhammer = 0;
+
+        // Swap images to create animation effect
+
+        function bounce() {
+
+            curJackhammer =
+                (curJackhammer === 10)
+                ? 0
+                : ++curJackhammer;
+
+            var imgHolder =
+                document.getElementById("imgJackhammer");
+
+            imgHolder.src =
+                jackhammers[curJackhammer];
+
+        }
+
+        // Start animation
+
+        function startBouncing() {
+
+            setInterval(bounce, 90);
+
+        }
+
+    </script>
+
+</body>
+
+</html>

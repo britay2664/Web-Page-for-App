@@ -154,23 +154,59 @@
             personalProjects.style.display = "block";
         }
 
-        // Toggle dark mode on and off.
+
+    // Dynamically add a new paragraph to the Projects section.
+        var projectsSection = document.getElementById("projects");
+
+        var newProjectMessage = document.createElement("p");
+        newProjectMessage.textContent = "Recent Project: I am continuing to improve this portfolio by adding JavaScript DOM features, timed events, and interactive form messages.";
+
+        projectsSection.appendChild(newProjectMessage);
+
+    // Select and modify existing elements.
+        var aboutHeading = document.querySelector("#about h2");
+        aboutHeading.textContent = "About Brian Taylor";
+        aboutHeading.style.borderBottom = "3px solid #330570";
+
+        var projectsHeading = document.querySelector("#projects h2");
+        projectsHeading.style.backgroundColor = "#fff4cc";
+        projectsHeading.style.padding = "10px";
+        
+    
+    // Toggle dark mode on and off.
         var darkModeToggle = document.getElementById("darkModeToggle");
 
         darkModeToggle.addEventListener("change", function () {
             document.body.classList.toggle("darkMode");
         });
 
-        // Prevent form refresh and show confirmation alert.
-        var contactForm = document.getElementById("contactForm");
 
-        contactForm.addEventListener("submit", function (event) {
-            event.preventDefault();
 
-            var senderName = document.getElementById("senderName").value;
+        // Prevent form refresh and show a timed confirmation message.
+var contactForm = document.getElementById("contactForm");
 
-            alert("Thank you, " + senderName + ", your message has been sent!");
-        });
+contactForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    var senderName = document.getElementById("senderName").value;
+
+    // Create or select the form message area.
+    var formMessage = document.getElementById("formMessage");
+
+    if (formMessage === null) {
+        formMessage = document.createElement("p");
+        formMessage.id = "formMessage";
+        contactForm.appendChild(formMessage);
+    }
+
+    // Show loading message first.
+    formMessage.textContent = "Sending message...";
+
+    // Delay the confirmation message by 3 seconds.
+    setTimeout(function () {
+        formMessage.textContent = "Thank you, " + senderName + ", your message has been sent successfully!";
+    }, 3000);
+});
     </script>
 
 </body>

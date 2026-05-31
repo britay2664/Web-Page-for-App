@@ -307,3 +307,10 @@ button {
 .darkMode #skillsList {
     color: #FFCF40;
 }
+
+#formMessage {
+    text-align: center;
+    font-weight: bold;
+    color: #330570;
+    margin-top: 15px;
+}

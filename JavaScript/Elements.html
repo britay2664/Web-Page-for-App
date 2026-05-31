@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!--
+    Author: Brian Taylor
+    Date: 05/31/2026
+    Purpose:   This page demonstrates how to create a Table of Contents dynamically using JavaScript. The script will find all the h3 elements on the page and create a list of links that allow users to jump to each section.
+    -->
+
+    <meta charset="utf-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Elements</title>
+
+</head>
+
+<body>
+
+    <header>
+        <h1>BriTay2664, Elements</h1>
+    </header>
+
+    <article>
+
+        <h2>United States Bill of Rights</h2>
+
+        <h3>Table of Contents</h3>
+
+        <ul id="toc"></ul>
+
+        <h3 id="1">Amendment I</h3>
+
+        <p>
+            Congress shall make no law respecting an establishment
+            of religion...
+        </p>
+
+        <h3 id="2">Amendment II</h3>
+
+        <p>
+            A well regulated Militia, being necessary to the security
+            of a free State...
+        </p>
+
+    </article>
+
+    <script>
+
+        /*
+            Creates a Table of Contents dynamically
+            using the amendment headings.
+        */
+
+        function createTOC() {
+
+            // Get the unordered list
+
+            var list = document.getElementById("toc");
+
+            // Get all h3 elements
+
+            var headings = document.getElementsByTagName("h3");
+
+            // Loop through headings
+
+            for (var i = 1; i < headings.length; i++) {
+
+                // Get heading text
+
+                var headingText = headings[i].innerText;
+
+                // Get heading ID
+
+                var headingID = headings[i].id;
+
+                // Create new list item
+
+                var TOCEntry = document.createElement("li");
+
+                // Create clickable anchor link
+
+                TOCEntry.innerHTML =
+                    "<a href='#" + headingID + "'>" +
+                    headingText +
+                    "</a>";
+
+                // Add list item to TOC
+
+                list.appendChild(TOCEntry);
+
+            }
+
+        }
+
+        // Run function after page loads
+
+        if (window.addEventListener) {
+
+            window.addEventListener("load", createTOC, false);
+
+        }
+        else if (window.attachEvent) {
+
+            window.attachEvent("onload", createTOC);
+
+        }
+
+    </script>
+
+</body>
+
+</html>
