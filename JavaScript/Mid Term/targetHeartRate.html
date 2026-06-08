@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--
+        Assignment: Target Heart Rate Calculator
+        Author: Brian Taylor
+        Date: May 29, 2026
+
+        Purpose:
+        This webpage calculates a user's target heart rate range
+        based on their age using the American Heart Association guidelines.
+    -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BriTay2664 Target Heart Rate Calculator</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+        h1 {
+            color: darkred;
+        }
+
+        label, input, button {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 8px 15px;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Brian Taylor - Target Heart Rate Calculator</h1>
+
+    <label for="age">Your Age:</label>
+    <input type="number" id="age">
+
+    <br><br>
+
+    <button onclick="calculateTHR()">Calculate Target Heart Rate</button>
+
+    <p id="result">Target Heart Rate:</p>
+
+    <script>
+        function calculateTHR() {
+
+            // Get the user's age from the textbox
+            let age = Number(document.getElementById("age").value);
+
+            // Validate the age
+            if (age < 0 || age > 125 || isNaN(age)) {
+                alert("Please enter a valid age between 0 and 125.");
+                return;
+            }
+
+            // Calculate maximum heart rate
+            let maxHR = 220 - age;
+
+            // Calculate minimum target heart rate
+            let minTHR = maxHR * 0.50;
+
+            // Calculate maximum target heart rate
+            let maxTHR = maxHR * 0.85;
+
+            // Format the values using Math.floor()
+            minTHR = Math.floor(minTHR);
+            maxTHR = Math.floor(maxTHR);
+
+            // Display the results
+            document.getElementById("result").innerHTML =
+                "Target Heart Rate: " +
+                minTHR + " to " +
+                maxTHR + " Beats Per Minute";
+        }
+    </script>
+
+</body>
+</html>

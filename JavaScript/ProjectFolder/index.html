@@ -7,7 +7,8 @@
         Date: May 22, 2026
         Purpose: Portfolio page using HTML, CSS, and JavaScript.
         This page includes navigation, project links, a contact form,
-        personalized user interaction, featured content, skills, and dark mode.
+        personalized user interaction, featured content, skills, dark mode,
+        a welcome modal, tooltips, and saved user preferences.
     -->
 
     <meta charset="UTF-8">
@@ -17,6 +18,15 @@
 </head>
 
 <body>
+
+    <!-- Custom welcome modal -->
+    <div id="welcomeModal" class="modalOverlay">
+        <div class="modalBox">
+            <h2>Welcome to BriTay2664 Project</h2>
+            <p>This page is a work in progress.</p>
+            <button id="closeModal">Close</button>
+        </div>
+    </div>
 
     <header>
         <h1 id="welcomeMessage">Welcome to BriTay2664 Project</h1>
@@ -115,21 +125,16 @@
                 <label for="message">Message</label>
                 <textarea id="message" name="message"></textarea>
 
-                <button type="submit" id="submitButton">Submit</button>
+                <div class="tooltipContainer">
+                    <button type="submit" id="submitButton">Submit</button>
+                    <span class="tooltipText">Click to send your message!</span>
+                </div>
             </form>
         </section>
 
     </main>
 
     <script>
-        // Ask the user's name and update the welcome message.
-        var userName = prompt("What is your name?");
-
-        if (userName !== null && userName !== "") {
-            document.getElementById("welcomeMessage").innerHTML =
-                "Welcome to BriTay2664's Project, " + userName + "!";
-        }
-
         // Display skills in the About section using an array and loop.
         var skills = ["HTML", "CSS", "JavaScript", "Git", "GitHub"];
         var skillsList = document.getElementById("skillsList");
@@ -148,14 +153,12 @@
         if (projectLinks.length < 3) {
             universityResources.style.display = "block";
             personalProjects.style.display = "block";
-        }
-        else {
+        } else {
             universityResources.style.display = "none";
             personalProjects.style.display = "block";
         }
 
-
-    // Dynamically add a new paragraph to the Projects section.
+        // Dynamically add a new paragraph to the Projects section.
         var projectsSection = document.getElementById("projects");
 
         var newProjectMessage = document.createElement("p");
@@ -163,7 +166,7 @@
 
         projectsSection.appendChild(newProjectMessage);
 
-    // Select and modify existing elements.
+        // Select and modify existing elements.
         var aboutHeading = document.querySelector("#about h2");
         aboutHeading.textContent = "About Brian Taylor";
         aboutHeading.style.borderBottom = "3px solid #330570";
@@ -171,42 +174,55 @@
         var projectsHeading = document.querySelector("#projects h2");
         projectsHeading.style.backgroundColor = "#fff4cc";
         projectsHeading.style.padding = "10px";
-        
-    
-    // Toggle dark mode on and off.
-        var darkModeToggle = document.getElementById("darkModeToggle");
 
-        darkModeToggle.addEventListener("change", function () {
-            document.body.classList.toggle("darkMode");
+        // Welcome modal close button.
+        var welcomeModal = document.getElementById("welcomeModal");
+        var closeModal = document.getElementById("closeModal");
+
+        closeModal.addEventListener("click", function () {
+            welcomeModal.style.display = "none";
         });
 
+        // Dark mode with localStorage preference.
+        var darkModeToggle = document.getElementById("darkModeToggle");
 
+        if (localStorage.getItem("darkMode") === "enabled") {
+            document.body.classList.add("darkMode");
+            darkModeToggle.checked = true;
+        }
+
+        darkModeToggle.addEventListener("change", function () {
+            if (darkModeToggle.checked) {
+                document.body.classList.add("darkMode");
+                localStorage.setItem("darkMode", "enabled");
+            } else {
+                document.body.classList.remove("darkMode");
+                localStorage.setItem("darkMode", "disabled");
+            }
+        });
 
         // Prevent form refresh and show a timed confirmation message.
-var contactForm = document.getElementById("contactForm");
+        var contactForm = document.getElementById("contactForm");
 
-contactForm.addEventListener("submit", function (event) {
-    event.preventDefault();
+        contactForm.addEventListener("submit", function (event) {
+            event.preventDefault();
 
-    var senderName = document.getElementById("senderName").value;
+            var senderName = document.getElementById("senderName").value;
 
-    // Create or select the form message area.
-    var formMessage = document.getElementById("formMessage");
+            var formMessage = document.getElementById("formMessage");
 
-    if (formMessage === null) {
-        formMessage = document.createElement("p");
-        formMessage.id = "formMessage";
-        contactForm.appendChild(formMessage);
-    }
+            if (formMessage === null) {
+                formMessage = document.createElement("p");
+                formMessage.id = "formMessage";
+                contactForm.appendChild(formMessage);
+            }
 
-    // Show loading message first.
-    formMessage.textContent = "Sending message...";
+            formMessage.textContent = "Sending message...";
 
-    // Delay the confirmation message by 3 seconds.
-    setTimeout(function () {
-        formMessage.textContent = "Thank you, " + senderName + ", your message has been sent successfully!";
-    }, 3000);
-});
+            setTimeout(function () {
+                formMessage.textContent = "Thank you, " + senderName + ", your message has been sent successfully!";
+            }, 3000);
+        });
     </script>
 
 </body>
