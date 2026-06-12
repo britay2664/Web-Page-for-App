@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--
+        Assignment Name: Road Trip Summary
+        Author: Brian Taylor
+        Date: June 10, 2026
+        Purpose: This webpage collects road trip information, calculates total miles
+        and fuel economy, stores data using session storage and cookies, and displays
+        the trip summary in a new browser window.
+    -->
+
+    <meta charset="UTF-8">
+    <title>Road Trip Summary</title>
+</head>
+
+<body>
+    <h1>BriTay2664 - Road Trip Summary</h1>
+
+    <form>
+        <label for="tripName">Trip Name:</label>
+        <input type="text" id="tripName"><br><br>
+
+        <label for="startMileage">Starting Mileage:</label>
+        <input type="number" id="startMileage"><br><br>
+
+        <label for="endMileage">Ending Mileage:</label>
+        <input type="number" id="endMileage"><br><br>
+
+        <label for="gallonsUsed">Gallons of Gas Used:</label>
+        <input type="number" id="gallonsUsed" step="0.01"><br><br>
+
+        <button type="button" onclick="generateTripSummary()">Generate Trip Summary</button>
+    </form>
+
+    <script>
+        function generateTripSummary() {
+            let tripName = document.getElementById("tripName").value;
+            let startMileage = Number(document.getElementById("startMileage").value);
+            let endMileage = Number(document.getElementById("endMileage").value);
+            let gallonsUsed = Number(document.getElementById("gallonsUsed").value);
+
+            if (tripName === "" || startMileage < 0 || endMileage <= startMileage || gallonsUsed <= 0) {
+                alert("Please enter valid trip information.");
+                return;
+            }
+
+            let totalMiles = endMileage - startMileage;
+            let mpg = totalMiles / gallonsUsed;
+            let currentDateTime = new Date().toLocaleString();
+
+            let tripSummary = {
+                tripName: tripName,
+                startingMileage: startMileage,
+                endingMileage: endMileage,
+                totalMilesTraveled: totalMiles,
+                gallonsConsumed: gallonsUsed,
+                fuelEconomyMPG: mpg.toFixed(2),
+                dateGenerated: currentDateTime
+            };
+
+            sessionStorage.setItem("dateGenerated", currentDateTime);
+
+            document.cookie = "tripSummary=" + encodeURIComponent(JSON.stringify(tripSummary)) + "; path=/";
+
+            console.log("Session Storage:", sessionStorage);
+            console.log("Cookie:", document.cookie);
+
+            let summaryWindow = window.open("", "Trip Summary", "width=500,height=500");
+
+            summaryWindow.document.write(`
+                <html>
+                <head>
+                    <title>Trip Summary</title>
+                </head>
+                <body>
+                    <h1>Road Trip Summary</h1>
+                    <p><strong>Trip Name:</strong> ${tripSummary.tripName}</p>
+                    <p><strong>Total Miles Traveled:</strong> ${tripSummary.totalMilesTraveled}</p>
+                    <p><strong>Gallons of Gas Consumed:</strong> ${tripSummary.gallonsConsumed}</p>
+                    <p><strong>Fuel Economy MPG:</strong> ${tripSummary.fuelEconomyMPG}</p>
+                    <p><strong>Date and Time Generated:</strong> ${tripSummary.dateGenerated}</p>
+                </body>
+                </html>
+            `);
+
+            summaryWindow.document.close();
+        }
+    </script>
+</body>
+</html>

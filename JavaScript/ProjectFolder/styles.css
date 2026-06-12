@@ -378,3 +378,32 @@ button {
 .tooltipContainer:hover .tooltipText {
     visibility: visible;
 }
+
+.tooltipContainer:hover .tooltipText {
+    visibility: visible;
+}
+
+.projectCard {
+    border: 3px solid #330570;
+    background: #fff4cc;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.projectCard h3 {
+    color: #330570;
+    margin-bottom: 10px;
+}
+
+.projectCard p {
+    margin-bottom: 10px;
+}
+
+.darkMode .projectCard {
+    background: #444;
+    color: white;
+}
+
+.darkMode .projectCard h3 {
+    color: #FFCF40;
+}

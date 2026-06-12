@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!--
+        Author: Brian Taylor
+        Date: June 12, 2026
+        Purpose: This exercise creates a bill splitter webpage.
+        The page allows a user to enter a bill amount, tip percentage,
+        and number of people. JavaScript is used to calculate the tip,
+        total bill, and amount each person owes.
+    -->
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill Splitter</title>
+</head>
+
+<body>
+    <header>
+        <h1>Brian Taylor - Bill Splitter</h1>
+    </header>
+
+    <main>
+        <form id="billForm" novalidate>
+            <label for="billAmount">Bill Amount:</label>
+            <input type="number" id="billAmount" step="0.01" min="0" required>
+            <br><br>
+
+            <label for="tipPercentage">Tip Percentage:</label>
+            <input type="number" id="tipPercentage" min="0" max="100" required>
+            <div id="tipError" style="color: red;"></div>
+            <br>
+
+            <label for="peopleCount">People Count:</label>
+            <input type="number" id="peopleCount" min="1" required>
+            <br><br>
+
+            <button type="button" id="calculateBtn">Calculate</button>
+        </form>
+
+        <section id="summary">
+            <h2>Bill Summary</h2>
+            <p id="tipAmount"></p>
+            <p id="totalBill"></p>
+            <p id="splitAmount"></p>
+        </section>
+    </main>
+
+    <script src="Calculation.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!--
+        Author: Brian Taylor
+        Date: June 12, 2026
+        Purpose: This exercise creates a sign-up form with live feedback.
+        The form uses jQuery and validator.js to validate user input
+        before allowing the form to submit successfully.
+    -->
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign-Up Form Validation</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/validator@13.11.0/validator.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>BriTay2664 - Sign-Up Form Validation</h1>
+    </header>
+
+    <main>
+        <form id="signupForm" novalidate>
+            <label for="fullName">Full Name:</label>
+            <input type="text" id="fullName" name="fullName">
+            <div id="nameError" style="color: red;"></div>
+            <br>
+
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email">
+            <div id="emailError" style="color: red;"></div>
+            <br>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password">
+            <div id="passwordError" style="color: red;"></div>
+            <br>
+
+            <label for="website">Website URL:</label>
+            <input type="text" id="website" name="website" placeholder="https://example.com">
+            <div id="websiteError" style="color: red;"></div>
+            <br>
+
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age">
+            <div id="ageError" style="color: red;"></div>
+            <br>
+
+            <button type="submit">Submit</button>
+        </form>
+    </main>
+
+    <script src="FormValidation.js"></script>
+</body>
+
+</html>

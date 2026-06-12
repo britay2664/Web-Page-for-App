@@ -90,23 +90,13 @@
         </section>
 
         <section id="projects">
-            <h2>Projects</h2>
+    <h2>Projects</h2>
 
-            <p>
-                Below are links to some of my completed GitHub projects.
-            </p>
+        <p>
+            Below are links to some of my completed GitHub projects.
+        </p>
 
-            <a href="https://github.com/britay2664/Web-Page-for-App/tree/main/JavaScript/ProjectFolder" target="_blank">
-                <img src="https://via.placeholder.com/200" alt="JavaScript Project">
-            </a>
-
-            <a href="https://github.com/britay2664/Web-Page-for-App" target="_blank">
-                <img src="https://via.placeholder.com/200" alt="Web Development Project">
-            </a>
-
-            <a href="https://github.com/britay2664" target="_blank">
-                <img src="https://via.placeholder.com/200" alt="GitHub Profile">
-            </a>
+    <div id="projectContainer"></div>
         </section>
 
         <section id="contact">
@@ -146,23 +136,23 @@
         }
 
         // Show or hide featured content based on number of project links.
-        var projectLinks = document.querySelectorAll("#projects a");
-        var universityResources = document.getElementById("universityResources");
-        var personalProjects = document.getElementById("personalProjects");
+        //var projectLinks = document.querySelectorAll("#projects a");
+        //var universityResources = document.getElementById("universityResources");
+        //var personalProjects = document.getElementById("personalProjects");
 
-        if (projectLinks.length < 3) {
-            universityResources.style.display = "block";
-            personalProjects.style.display = "block";
-        } else {
-            universityResources.style.display = "none";
-            personalProjects.style.display = "block";
-        }
+        //if (projectLinks.length < 3) {
+        // //   universityResources.style.display = "block";
+        //  //  personalProjects.style.display = "block";
+        //} else {
+        //    universityResources.style.display = "none";
+        //    personalProjects.style.display = "block";
+        //}
 
         // Dynamically add a new paragraph to the Projects section.
-        var projectsSection = document.getElementById("projects");
+        //var projectsSection = document.getElementById("projects");
 
-        var newProjectMessage = document.createElement("p");
-        newProjectMessage.textContent = "Recent Project: I am continuing to improve this portfolio by adding JavaScript DOM features, timed events, and interactive form messages.";
+        //var newProjectMessage = document.createElement("p");
+        //newProjectMessage.textContent = "Recent Project: I am continuing to improve this portfolio by adding JavaScript DOM features, timed events, and interactive form messages.";
 
         projectsSection.appendChild(newProjectMessage);
 
@@ -222,7 +212,71 @@
             setTimeout(function () {
                 formMessage.textContent = "Thank you, " + senderName + ", your message has been sent successfully!";
             }, 3000);
+
+            // Create custom project objects.
+var projectOne = {
+    title: "JavaScript Project",
+    summary: "This project demonstrates JavaScript skills using DOM manipulation, events, and interactive webpage features.",
+    imageUrl: "https://via.placeholder.com/200",
+    repositoryLink: "https://github.com/britay2664/Web-Page-for-App/tree/main/JavaScript/ProjectFolder"
+};
+
+var projectTwo = {
+    title: "Web Development Project",
+    summary: "This project shows my progress with HTML, CSS, and JavaScript while building a personal portfolio page.",
+    imageUrl: "https://via.placeholder.com/200",
+    repositoryLink: "https://github.com/britay2664/Web-Page-for-App"
+};
+
+var projectThree = {
+    title: "GitHub Portfolio",
+    summary: "This repository contains my web development work and class projects as I continue improving my coding skills.",
+    imageUrl: "https://via.placeholder.com/200",
+    repositoryLink: "https://github.com/britay2664"
+};
+
+// Store the project objects inside an array.
+var projectArray = [projectOne, projectTwo, projectThree];
+
+// Check session storage for saved project data.
+if (sessionStorage.getItem("portfolioProjects") === null) {
+    sessionStorage.setItem("portfolioProjects", JSON.stringify(projectArray));
+} else {
+    projectArray = JSON.parse(sessionStorage.getItem("portfolioProjects"));
+}
+
+// Select the project container.
+var projectContainer = document.getElementById("projectContainer");
+
+// Loop through the project array and create project cards.
+for (var j = 0; j < projectArray.length; j++) {
+    var projectCard = document.createElement("div");
+    projectCard.className = "projectCard";
+
+    var projectTitle = document.createElement("h3");
+    projectTitle.textContent = projectArray[j].title;
+
+    var projectSummary = document.createElement("p");
+    projectSummary.textContent = projectArray[j].summary;
+
+    var projectLink = document.createElement("a");
+    projectLink.href = projectArray[j].repositoryLink;
+    projectLink.target = "_blank";
+
+    var projectImage = document.createElement("img");
+    projectImage.src = projectArray[j].imageUrl;
+    projectImage.alt = projectArray[j].title;
+
+    projectLink.appendChild(projectImage);
+
+    projectCard.appendChild(projectTitle);
+    projectCard.appendChild(projectSummary);
+    projectCard.appendChild(projectLink);
+
+    projectContainer.appendChild(projectCard);
+}
         });
+
     </script>
 
 </body>
