@@ -6,12 +6,17 @@ public class Game {
     private boolean running;
     private Player player;
     private ArrayList<Item> items;
+    private ArrayList<Character> characters;
 
     public Game() {
         input = new Scanner(System.in);
         running = true;
         player = new Player("Hero");
         items = new ArrayList<Item>();
+
+        characters = new ArrayList<Character>();
+        characters.add(new Warrior("Blade", 120));
+        characters.add(new Hacker("Cipher", 90));
     }
 
     public void start() {
@@ -35,7 +40,9 @@ public class Game {
         System.out.println("3. Help");
         System.out.println("4. Add Item");
         System.out.println("5. View Items");
-        System.out.println("6. Exit");
+        System.out.println("6. View Characters");
+        System.out.println("7. Use Character Abilities");
+        System.out.println("8. Exit");
         System.out.print("Choose an option: ");
     }
 
@@ -44,23 +51,35 @@ public class Game {
             case "1":
                 startGame();
                 break;
+
             case "2":
                 player.displayInfo();
                 break;
+
             case "3":
                 showHelp();
                 break;
+
             case "4":
                 addItem();
                 break;
 
             case "5":
-                 viewItems();
+                viewItems();
                 break;
 
             case "6":
+                viewCharacters();
+                break;
+
+            case "7":
+                useCharacterAbilities();
+                break;
+
+            case "8":
                 running = false;
                 break;
+
             default:
                 System.out.println("Invalid option. Please try again.");
         }
@@ -77,29 +96,45 @@ public class Game {
     }
 
     private void addItem() {
-    System.out.print("Enter item name: ");
-    String name = input.nextLine();
+        System.out.print("Enter item name: ");
+        String name = input.nextLine();
 
-    System.out.print("Enter item description: ");
-    String description = input.nextLine();
+        System.out.print("Enter item description: ");
+        String description = input.nextLine();
 
-    Item newItem = new Item(name, description);
-    items.add(newItem);
+        Item newItem = new Item(name, description);
+        items.add(newItem);
 
-    System.out.println("Item added successfully!");
-}
+        System.out.println("Item added successfully!");
+    }
 
-private void viewItems() {
-    if (items.isEmpty()) {
-        System.out.println("No items have been added yet.");
-    } else {
-        System.out.println("\n===== STORED ITEMS =====");
+    private void viewItems() {
+        if (items.isEmpty()) {
+            System.out.println("No items have been added yet.");
+        } else {
+            System.out.println("\n===== STORED ITEMS =====");
 
-        for (Item item : items) {
-            item.displayItem();
+            for (Item item : items) {
+                item.displayItem();
+                System.out.println("--------------------");
+            }
+        }
+    }
+
+    private void viewCharacters() {
+        System.out.println("\n===== CHARACTERS =====");
+
+        for (Character character : characters) {
+            character.displayInfo();
             System.out.println("--------------------");
         }
     }
-}
 
+    private void useCharacterAbilities() {
+        System.out.println("\n===== SPECIAL ABILITIES =====");
+
+        for (Character character : characters) {
+            character.useSpecialAbility();
+        }
+    }
 }
