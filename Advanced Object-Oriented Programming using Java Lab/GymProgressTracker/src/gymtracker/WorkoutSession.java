@@ -68,4 +68,33 @@ public class WorkoutSession {
 
         System.out.println("==================================================");
     }
+
+    @Override
+public String toString() {
+
+    String result = String.format(
+            "Workout Name: %s%n"
+            + "Workout Date: %s%n"
+            + "Number of Exercises: %d%n",
+            getWorkoutName(),
+            getWorkoutDate(),
+            exercises.size()
+    );
+
+    int exerciseNumber = 1;
+
+    for (Exercise exercise : exercises) {
+
+        result += String.format(
+                "%nExercise #%d:%n%s%n",
+                exerciseNumber,
+                exercise.toString()
+        );
+
+        exerciseNumber++;
+    }
+
+    return result;
+}
+
 }

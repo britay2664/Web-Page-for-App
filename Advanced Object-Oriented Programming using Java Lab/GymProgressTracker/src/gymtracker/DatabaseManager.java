@@ -1,47 +1,52 @@
 package gymtracker;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-
-
-
-/*
+/*******************************************************************
  * Name: Brian Taylor
  * Date: August 23, 2026
- * Course: SDC330
- * Assignment: Course Project - Phase 2
+ * Assignment: SDC330 Course Project - Phase 4
  *
- * Description:
- * Handles the SQLite database connection and creates
- * the tables used by the Gym Progress Tracker.
- */
+ * Purpose:
+ * This class manages the SQLite database for the Gym Progress
+ * Tracker. It creates the required database tables and performs
+ * Create, Read, Update, and Delete (CRUD) operations on workout
+ * and exercise records.
+ *******************************************************************/
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 public class DatabaseManager {
 
+    // Database connection URL
     private static final String DB_URL =
             "jdbc:sqlite:gym_progress_tracker.db";
 
-    // Connect to the SQLite database
-    public static Connection connect() throws SQLException {
+    /*
+     * PRIVATE METHOD:
+     * Only DatabaseManager needs to directly create database
+     * connections, so this method is private.
+     */
+    private static Connection connect() throws SQLException {
         return DriverManager.getConnection(DB_URL);
     }
 
-    // Create the database tables
+    /*
+     * Creates the database tables if they do not already exist.
+     */
     public static void createTables() {
 
         String workoutTable = """
-        CREATE TABLE IF NOT EXISTS workouts (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            workout_date TEXT NOT NULL,
-            workout_name TEXT NOT NULL
-        );
-        """;
-            
+                CREATE TABLE IF NOT EXISTS workouts (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    workout_date TEXT NOT NULL,
+                    workout_name TEXT NOT NULL
+                );
+                """;
 
         String exerciseTable = """
                 CREATE TABLE IF NOT EXISTS exercises (
@@ -49,14 +54,14 @@ public class DatabaseManager {
                     workout_id INTEGER NOT NULL,
                     exercise_type TEXT NOT NULL,
                     exercise_name TEXT NOT NULL,
-                    muscle_group TEXT,
+                    muscle_group TEXT NOT NULL,
                     sets INTEGER,
                     reps INTEGER,
                     weight REAL,
-                    duration INTEGER,
-                    distance REAL,
+                    duration_minutes INTEGER,
+                    distance_miles REAL,
                     FOREIGN KEY (workout_id)
-                    REFERENCES workouts(id)
+                        REFERENCES workouts(id)
                 );
                 """;
 
@@ -66,231 +71,443 @@ public class DatabaseManager {
             statement.execute(workoutTable);
             statement.execute(exerciseTable);
 
-            System.out.println("Database initialized successfully.");
+            System.out.println(
+                    "Database initialized successfully.");
 
         } catch (SQLException e) {
 
             System.out.println(
                     "Database initialization error: "
-                    + e.getMessage()
-            );
+                            + e.getMessage());
         }
     }
 
+    /*
+     * CREATE:
+     * Saves a WorkoutSession to the workouts table and then saves
+     * all exercises associated with the workout.
+     */
+    public static void saveWorkout(WorkoutSession workout) {
 
-public static int saveWorkout(String workoutDate, String workoutName) {
+        String sql = """
+                INSERT INTO workouts
+                (workout_date, workout_name)
+                VALUES (?, ?);
+                """;
 
-    String sql = """
-            INSERT INTO workouts (workout_date, workout_name)
-            VALUES (?, ?);
-            """;
+        try (Connection connection = connect();
+             PreparedStatement statement =
+                     connection.prepareStatement(
+                             sql,
+                             Statement.RETURN_GENERATED_KEYS)) {
 
-    try (Connection connection = connect();
-         PreparedStatement statement =
-                 connection.prepareStatement(
-                         sql,
-                         Statement.RETURN_GENERATED_KEYS)) {
+            statement.setString(
+                    1,
+                    workout.getWorkoutDate());
 
-        statement.setString(1, workoutDate);
-        statement.setString(2, workoutName);
+            statement.setString(
+                    2,
+                    workout.getWorkoutName());
 
-        statement.executeUpdate();
+            statement.executeUpdate();
 
-        ResultSet keys = statement.getGeneratedKeys();
+            try (ResultSet keys =
+                         statement.getGeneratedKeys()) {
 
-        if (keys.next()) {
-            return keys.getInt(1);
-        }
+                if (keys.next()) {
 
-    } catch (SQLException e) {
-        System.out.println(
-                "Error saving workout: " + e.getMessage());
-    }
+                    int workoutId = keys.getInt(1);
 
-    return -1;
-}
+                    for (Exercise exercise :
+                            workout.getExercises()) {
 
+                        if (exercise
+                                instanceof StrengthExercise) {
 
-public static void saveStrengthExercise(
-        int workoutId,
-        String exerciseName,
-        String muscleGroup,
-        int sets,
-        int reps,
-        double weight) {
+                            saveStrengthExercise(
+                                    connection,
+                                    workoutId,
+                                    (StrengthExercise) exercise);
 
-    String sql = """
-            INSERT INTO exercises
-            (workout_id, exercise_type, exercise_name,
-             muscle_group, sets, reps, weight)
-            VALUES (?, ?, ?, ?, ?, ?, ?);
-            """;
+                        } else if (exercise
+                                instanceof CardioExercise) {
 
-    try (Connection connection = connect();
-         PreparedStatement statement =
-                 connection.prepareStatement(sql)) {
-
-        statement.setInt(1, workoutId);
-        statement.setString(2, "Strength");
-        statement.setString(3, exerciseName);
-        statement.setString(4, muscleGroup);
-        statement.setInt(5, sets);
-        statement.setInt(6, reps);
-        statement.setDouble(7, weight);
-
-        statement.executeUpdate();
-
-        System.out.println("Exercise saved to database.");
-
-    } catch (SQLException e) {
-        System.out.println(
-                "Error saving exercise: " + e.getMessage());
-    }
-}
-
-public static void saveCardioExercise(
-        int workoutId,
-        String exerciseName,
-        String muscleGroup,
-        int duration,
-        double distance) {
-
-    String sql = """
-            INSERT INTO exercises
-            (workout_id, exercise_type, exercise_name,
-             muscle_group, duration, distance)
-            VALUES (?, ?, ?, ?, ?, ?);
-            """;
-
-    try (Connection connection = connect();
-         PreparedStatement statement =
-                 connection.prepareStatement(sql)) {
-
-        statement.setInt(1, workoutId);
-        statement.setString(2, "Cardio");
-        statement.setString(3, exerciseName);
-        statement.setString(4, muscleGroup);
-        statement.setInt(5, duration);
-        statement.setDouble(6, distance);
-
-        statement.executeUpdate();
-
-        System.out.println("Exercise saved to database.");
-
-    } catch (SQLException e) {
-        System.out.println(
-                "Error saving exercise: " + e.getMessage());
-    }
-}
-
-public static ArrayList<WorkoutSession> loadWorkouts() {
-
-    ArrayList<WorkoutSession> workouts = new ArrayList<>();
-
-    String workoutSql =
-            "SELECT id, workout_date, workout_name FROM workouts ORDER BY id;";
-
-    String exerciseSql =
-            "SELECT exercise_type, exercise_name, muscle_group, sets, reps, weight, duration, distance "
-            + "FROM exercises WHERE workout_id = ? ORDER BY id;";
-
-    try (Connection connection = connect();
-         PreparedStatement workoutStatement =
-                 connection.prepareStatement(workoutSql);
-         ResultSet workoutResults =
-                 workoutStatement.executeQuery()) {
-
-        while (workoutResults.next()) {
-
-            int workoutId =
-                    workoutResults.getInt("id");
-
-            String workoutDate =
-                    workoutResults.getString("workout_date");
-
-            String workoutName =
-                    workoutResults.getString("workout_name");
-
-            WorkoutSession workout =
-                    new WorkoutSession(
-                            workoutDate,
-                            workoutName);
-
-            try (PreparedStatement exerciseStatement =
-                         connection.prepareStatement(exerciseSql)) {
-
-                exerciseStatement.setInt(1, workoutId);
-
-                try (ResultSet exerciseResults =
-                             exerciseStatement.executeQuery()) {
-
-                    while (exerciseResults.next()) {
-
-                        String exerciseType =
-                                exerciseResults.getString(
-                                        "exercise_type");
-
-                        String exerciseName =
-                                exerciseResults.getString(
-                                        "exercise_name");
-
-                        String muscleGroup =
-                                exerciseResults.getString(
-                                        "muscle_group");
-
-                        if ("Strength".equalsIgnoreCase(exerciseType)) {
-
-                            int sets =
-                                    exerciseResults.getInt("sets");
-
-                            int reps =
-                                    exerciseResults.getInt("reps");
-
-                            double weight =
-                                    exerciseResults.getDouble("weight");
-
-                            StrengthExercise exercise =
-                                    new StrengthExercise(
-                                            exerciseName,
-                                            muscleGroup,
-                                            sets,
-                                            reps,
-                                            weight);
-
-                            workout.addExercise(exercise);
-
-                        } else if ("Cardio".equalsIgnoreCase(exerciseType)) {
-
-                            int duration =
-                                    exerciseResults.getInt("duration");
-
-                            double distance =
-                                    exerciseResults.getDouble("distance");
-
-                            CardioExercise exercise =
-                                    new CardioExercise(
-                                            exerciseName,
-                                            muscleGroup,
-                                            duration,
-                                            distance);
-
-                            workout.addExercise(exercise);
+                            saveCardioExercise(
+                                    connection,
+                                    workoutId,
+                                    (CardioExercise) exercise);
                         }
                     }
                 }
             }
 
-            workouts.add(workout);
+        } catch (SQLException e) {
+
+            System.out.println(
+                    "Error saving workout: "
+                            + e.getMessage());
         }
-
-    } catch (SQLException e) {
-
-        System.out.println(
-                "Error loading workouts: "
-                + e.getMessage());
     }
 
-    return workouts;
-}
+    /*
+     * CREATE:
+     * Saves a StrengthExercise associated with a workout.
+     */
+    private static void saveStrengthExercise(
+            Connection connection,
+            int workoutId,
+            StrengthExercise exercise)
+            throws SQLException {
 
+        String sql = """
+                INSERT INTO exercises
+                (workout_id,
+                 exercise_type,
+                 exercise_name,
+                 muscle_group,
+                 sets,
+                 reps,
+                 weight)
+                VALUES (?, ?, ?, ?, ?, ?, ?);
+                """;
+
+        try (PreparedStatement statement =
+                     connection.prepareStatement(sql)) {
+
+            statement.setInt(1, workoutId);
+            statement.setString(2, "Strength");
+            statement.setString(
+                    3,
+                    exercise.getName());
+            statement.setString(
+                    4,
+                    exercise.getMuscleGroup());
+            statement.setInt(
+                    5,
+                    exercise.getSets());
+            statement.setInt(
+                    6,
+                    exercise.getReps());
+            statement.setDouble(
+                    7,
+                    exercise.getWeight());
+
+            statement.executeUpdate();
+        }
+    }
+
+    /*
+     * CREATE:
+     * Saves a CardioExercise associated with a workout.
+     */
+    private static void saveCardioExercise(
+            Connection connection,
+            int workoutId,
+            CardioExercise exercise)
+            throws SQLException {
+
+        String sql = """
+                INSERT INTO exercises
+                (workout_id,
+                 exercise_type,
+                 exercise_name,
+                 muscle_group,
+                 duration_minutes,
+                 distance_miles)
+                VALUES (?, ?, ?, ?, ?, ?);
+                """;
+
+        try (PreparedStatement statement =
+                     connection.prepareStatement(sql)) {
+
+            statement.setInt(1, workoutId);
+            statement.setString(2, "Cardio");
+            statement.setString(
+                    3,
+                    exercise.getName());
+            statement.setString(
+                    4,
+                    exercise.getMuscleGroup());
+            statement.setInt(
+                    5,
+                    exercise.getDurationMinutes());
+            statement.setDouble(
+                    6,
+                    exercise.getDistanceMiles());
+
+            statement.executeUpdate();
+        }
+    }
+
+    /*
+     * READ:
+     * Loads all workouts and their exercises from SQLite.
+     */
+    public static ArrayList<WorkoutSession> loadWorkouts() {
+
+        ArrayList<WorkoutSession> workouts =
+                new ArrayList<>();
+
+        String workoutSql = """
+                SELECT id, workout_date, workout_name
+                FROM workouts
+                ORDER BY id;
+                """;
+
+        try (Connection connection = connect();
+             PreparedStatement statement =
+                     connection.prepareStatement(workoutSql);
+             ResultSet results =
+                     statement.executeQuery()) {
+
+            while (results.next()) {
+
+                int workoutId =
+                        results.getInt("id");
+
+                String workoutDate =
+                        results.getString("workout_date");
+
+                String workoutName =
+                        results.getString("workout_name");
+
+                WorkoutSession workout =
+                        new WorkoutSession(
+                                workoutDate,
+                                workoutName);
+
+                loadExercises(
+                        connection,
+                        workoutId,
+                        workout);
+
+                workouts.add(workout);
+            }
+
+        } catch (SQLException e) {
+
+            System.out.println(
+                    "Error loading workouts: "
+                            + e.getMessage());
+        }
+
+        return workouts;
+    }
+
+    /*
+     * READ:
+     * Loads all exercises associated with a specific workout.
+     */
+    private static void loadExercises(
+            Connection connection,
+            int workoutId,
+            WorkoutSession workout)
+            throws SQLException {
+
+        String sql = """
+                SELECT *
+                FROM exercises
+                WHERE workout_id = ?
+                ORDER BY id;
+                """;
+
+        try (PreparedStatement statement =
+                     connection.prepareStatement(sql)) {
+
+            statement.setInt(1, workoutId);
+
+            try (ResultSet results =
+                         statement.executeQuery()) {
+
+                while (results.next()) {
+
+                    String type =
+                            results.getString(
+                                    "exercise_type");
+
+                    String name =
+                            results.getString(
+                                    "exercise_name");
+
+                    String muscleGroup =
+                            results.getString(
+                                    "muscle_group");
+
+                    if ("Strength".equalsIgnoreCase(type)) {
+
+                        StrengthExercise exercise =
+                                new StrengthExercise(
+                                        name,
+                                        muscleGroup,
+                                        results.getInt("sets"),
+                                        results.getInt("reps"),
+                                        results.getDouble(
+                                                "weight"));
+
+                        workout.addExercise(exercise);
+
+                    } else if ("Cardio"
+                            .equalsIgnoreCase(type)) {
+
+                        CardioExercise exercise =
+                                new CardioExercise(
+                                        name,
+                                        muscleGroup,
+                                        results.getInt(
+                                                "duration_minutes"),
+                                        results.getDouble(
+                                                "distance_miles"));
+
+                        workout.addExercise(exercise);
+                    }
+                }
+            }
+        }
+    }
+
+    /*
+     * READ:
+     * Displays basic workout records and their database IDs.
+     */
+    public static void displayWorkoutRecords() {
+
+        String sql = """
+                SELECT id, workout_date, workout_name
+                FROM workouts
+                ORDER BY id;
+                """;
+
+        try (Connection connection = connect();
+             PreparedStatement statement =
+                     connection.prepareStatement(sql);
+             ResultSet results =
+                     statement.executeQuery()) {
+
+            System.out.println();
+            System.out.println(
+                    "------------- Stored Workouts -------------");
+
+            boolean found = false;
+
+            while (results.next()) {
+
+                found = true;
+
+                System.out.println(
+                        "ID: "
+                                + results.getInt("id")
+                                + " | Date: "
+                                + results.getString(
+                                        "workout_date")
+                                + " | Workout: "
+                                + results.getString(
+                                        "workout_name"));
+            }
+
+            if (!found) {
+                System.out.println(
+                        "No workout records found.");
+            }
+
+            System.out.println(
+                    "-------------------------------------------");
+
+        } catch (SQLException e) {
+
+            System.out.println(
+                    "Error reading workout records: "
+                            + e.getMessage());
+        }
+    }
+
+    /*
+     * UPDATE:
+     * Updates the date and name of an existing workout.
+     */
+    public static boolean updateWorkout(
+            int workoutId,
+            String newDate,
+            String newName) {
+
+        String sql = """
+                UPDATE workouts
+                SET workout_date = ?,
+                    workout_name = ?
+                WHERE id = ?;
+                """;
+
+        try (Connection connection = connect();
+             PreparedStatement statement =
+                     connection.prepareStatement(sql)) {
+
+            statement.setString(1, newDate);
+            statement.setString(2, newName);
+            statement.setInt(3, workoutId);
+
+            int rowsUpdated =
+                    statement.executeUpdate();
+
+            return rowsUpdated > 0;
+
+        } catch (SQLException e) {
+
+            System.out.println(
+                    "Error updating workout: "
+                            + e.getMessage());
+
+            return false;
+        }
+    }
+
+    /*
+     * DELETE:
+     * Deletes a workout and all exercise records belonging to it.
+     */
+    public static boolean deleteWorkout(int workoutId) {
+
+        String deleteExercises = """
+                DELETE FROM exercises
+                WHERE workout_id = ?;
+                """;
+
+        String deleteWorkout = """
+                DELETE FROM workouts
+                WHERE id = ?;
+                """;
+
+        try (Connection connection = connect()) {
+
+            /*
+             * Delete child exercise records first because they
+             * belong to the selected workout.
+             */
+            try (PreparedStatement statement =
+                         connection.prepareStatement(
+                                 deleteExercises)) {
+
+                statement.setInt(1, workoutId);
+                statement.executeUpdate();
+            }
+
+            try (PreparedStatement statement =
+                         connection.prepareStatement(
+                                 deleteWorkout)) {
+
+                statement.setInt(1, workoutId);
+
+                int rowsDeleted =
+                        statement.executeUpdate();
+
+                return rowsDeleted > 0;
+            }
+
+        } catch (SQLException e) {
+
+            System.out.println(
+                    "Error deleting workout: "
+                            + e.getMessage());
+
+            return false;
+        }
+    }
 }
