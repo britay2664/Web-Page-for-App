@@ -5,8 +5,8 @@ import java.util.Scanner;
 
 /*******************************************************************
  * Name: Brian Taylor
- * Date: August 10, 2026
- * Assignment: SDC330 Course Project - Phase 1
+ * Date: August 23, 2026
+ * Assignment: SDC330 Course Project - Phase 2
  *
  * Purpose:
  * This is the main application class for the Gym Progress Tracker.
@@ -21,6 +21,12 @@ public class GymProgressTrackerApp {
             new ArrayList<>();
 
     public static void main(String[] args) {
+
+        // Create the database tables when the program starts.
+        DatabaseManager.createTables();
+
+        workoutHistory = DatabaseManager.loadWorkouts();
+
 
         Scanner input = new Scanner(System.in);
 
@@ -96,6 +102,17 @@ public class GymProgressTrackerApp {
         WorkoutSession workout =
                 new WorkoutSession(workoutDate, workoutName);
 
+        // Save the workout to the database.
+        int workoutId =
+                DatabaseManager.saveWorkout(
+                        workoutDate,
+                        workoutName);
+
+        if (workoutId == -1) {
+            System.out.println(
+                    "Warning: Workout could not be saved to database.");
+        }
+
         boolean addingExercises = true;
 
         while (addingExercises) {
@@ -119,10 +136,12 @@ public class GymProgressTrackerApp {
                     String muscleGroup = input.nextLine();
 
                     System.out.print("Sets: ");
-                    int sets = Integer.parseInt(input.nextLine());
+                    int sets =
+                            Integer.parseInt(input.nextLine());
 
                     System.out.print("Reps: ");
-                    int reps = Integer.parseInt(input.nextLine());
+                    int reps =
+                            Integer.parseInt(input.nextLine());
 
                     System.out.print("Weight: ");
                     double weight =
@@ -137,6 +156,18 @@ public class GymProgressTrackerApp {
                                     weight);
 
                     workout.addExercise(strengthExercise);
+
+                    // Save strength exercise to the database.
+                    if (workoutId != -1) {
+
+                        DatabaseManager.saveStrengthExercise(
+                                workoutId,
+                                strengthName,
+                                muscleGroup,
+                                sets,
+                                reps,
+                                weight);
+                    }
 
                     System.out.println(
                             "Strength exercise added.");
@@ -168,6 +199,17 @@ public class GymProgressTrackerApp {
 
                     workout.addExercise(cardioExercise);
 
+                    // Save cardio exercise to the database.
+                    if (workoutId != -1) {
+
+                        DatabaseManager.saveCardioExercise(
+                                workoutId,
+                                cardioName,
+                                cardioGroup,
+                                duration,
+                                distance);
+                    }
+
                     System.out.println(
                             "Cardio exercise added.");
 
@@ -183,6 +225,7 @@ public class GymProgressTrackerApp {
             }
         }
 
+        // Keep the workout in the ArrayList during this session.
         workoutHistory.add(workout);
 
         System.out.println();
