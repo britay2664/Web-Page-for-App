@@ -3,7 +3,7 @@ package gymtracker;
 /*******************************************************************
  * Name: Brian Taylor
  * Date: August 23, 2026
- * Assignment: SDC330 Course Project - Phase 4
+ * 
  *
  * Purpose:
  * This class manages the SQLite database for the Gym Progress

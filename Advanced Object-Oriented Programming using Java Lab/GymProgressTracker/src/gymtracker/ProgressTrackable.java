@@ -3,7 +3,7 @@ package gymtracker;
 /*******************************************************************
  * Name: Brian Taylor
  * Date: August 8, 2026
- * Assignment: SDC330 Project Week 2
+ * 
  *
  * Purpose:
  * This interface defines progress tracking behavior for exercise

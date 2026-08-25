@@ -3,7 +3,7 @@ package gymtracker;
 /*******************************************************************
  * Name: Brian Taylor
  * Date: August 23, 2026
- * Assignment: SDC330 Course Project - Phase 4
+ * 
  *
  * Purpose:
  * This is the main application for the Gym Progress Tracker.
@@ -42,7 +42,7 @@ public class GymProgressTrackerApp {
         System.out.println(
                 "==================================================");
         System.out.println(
-                "       GYM PROGRESS TRACKER - PROJECT WEEK 4");
+                "       GYM PROGRESS TRACKER ");
         System.out.println(
                 "                  Brian Taylor");
         System.out.println(

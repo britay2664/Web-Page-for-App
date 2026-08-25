@@ -3,7 +3,7 @@ package gymtracker;
 /*******************************************************************
  * Name: Brian Taylor
  * Date: August 10, 2026
- * Assignment: SDC330 Project Week 3
+ * 
  *
  * Purpose:
  * This abstract class represents a general exercise in the Gym
