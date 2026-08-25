@@ -43,6 +43,7 @@ public class WorkoutSession {
     return exercises;
 }
 
+
     public int getExerciseCount() {
         return exercises.size();
     }

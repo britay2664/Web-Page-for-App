@@ -1,3 +1,4 @@
+# Gym Progress Tracker
 # Youtube Demo
 
 A video demonstration of the completed Gym Progress Tracker application is available on YouTube:
