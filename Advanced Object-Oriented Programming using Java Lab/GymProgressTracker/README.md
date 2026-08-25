@@ -1,4 +1,8 @@
-# Project Summary
+# Youtube Demo
+
+A video demonstration of the completed Gym Progress Tracker application is available on YouTube:
+https://www.youtube.com/watch?v=kz77nGg3bWw
+
 
 ## Project Overview
 
